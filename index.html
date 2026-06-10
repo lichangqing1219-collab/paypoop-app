@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#5a3825" />
+    <meta
+      name="description"
+      content="薪厕：记录带薪如厕时间，看看今天坐着赚了多少钱。"
+    />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="assets/poop-clock-mascot.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>薪厕 · 带薪如厕记录</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="today-label">今天</p>
+          <h1 class="brand">薪厕 <span>PayPoop</span></h1>
+        </div>
+        <button class="profile-button" data-view-target="settings" aria-label="打开工资设置">
+          <img src="assets/poop-clock-mascot.png" alt="" />
+        </button>
+      </header>
+
+      <section class="view active" id="view-home" data-view="home">
+        <div class="status-card">
+          <div class="status-copy">
+            <span class="status-pill" id="work-status">今日营业中</span>
+            <p>本月带薪如厕收入</p>
+            <h2><span class="currency">¥</span><span id="month-earnings">0.00</span></h2>
+            <div class="status-meta">
+              <span><strong id="month-count">0</strong> 次打卡</span>
+              <span class="dot"></span>
+              <span>共 <strong id="month-minutes">0</strong> 分钟</span>
+            </div>
+          </div>
+          <div class="mascot-wrap">
+            <span class="spark spark-one">✦</span>
+            <span class="spark spark-two">·</span>
+            <img src="assets/poop-clock-mascot.png" alt="戴着小时钟的卡通便便吉祥物" />
+          </div>
+        </div>
+
+        <section class="timer-panel" id="timer-panel">
+          <div class="timer-head">
+            <div>
+              <p class="section-kicker" id="timer-kicker">准备好了吗？</p>
+              <h3 id="timer-title">开始一次带薪沉思</h3>
+            </div>
+            <span class="live-dot" id="live-dot" aria-hidden="true"></span>
+          </div>
+
+          <div class="timer-value" id="timer-value">00:00</div>
+          <p class="earning-preview">
+            这段时间已赚 <strong>¥<span id="live-earnings">0.00</span></strong>
+          </p>
+
+          <button class="main-action" id="timer-action">
+            <span class="action-icon" id="action-icon">▶</span>
+            <span id="action-label">开始如厕</span>
+          </button>
+          <p class="rate-hint" id="rate-hint">按当前设置，时薪 ¥57.47</p>
+        </section>
+
+        <section class="home-summary">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">今日小结</p>
+              <h3>今天的摸鱼成果</h3>
+            </div>
+            <button class="text-button" data-view-target="records">查看记录</button>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card">
+              <span class="summary-icon">¥</span>
+              <p>今日收入</p>
+              <strong>¥<span id="today-earnings">0.00</span></strong>
+              <small id="today-income-caption">尚未开始创收</small>
+            </article>
+            <article class="summary-card">
+              <span class="summary-icon clock-icon">◷</span>
+              <p>今日时长</p>
+              <strong><span id="today-minutes">0</span> 分钟</strong>
+              <small id="today-time-caption">老板暂时很欣慰</small>
+            </article>
+          </div>
+
+          <div class="quote-card">
+            <span>“</span>
+            <p id="daily-quote">时间没有被浪费，它只是换了一种方式发工资。</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="view-records" data-view="records">
+        <div class="page-heading">
+          <p class="section-kicker">如厕日历</p>
+          <h2>每一次都算数</h2>
+        </div>
+
+        <section class="calendar-card">
+          <div class="calendar-head">
+            <button class="icon-button" id="prev-month" aria-label="上个月">‹</button>
+            <h3 id="calendar-title">2026年 6月</h3>
+            <button class="icon-button" id="next-month" aria-label="下个月">›</button>
+          </div>
+          <div class="weekdays">
+            <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </section>
+
+        <section class="record-list-section">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker" id="selected-date-label">今天</p>
+              <h3>如厕记录</h3>
+            </div>
+            <span class="count-badge" id="selected-count">0 次</span>
+          </div>
+          <div class="record-list" id="record-list"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-insights" data-view="insights">
+        <div class="page-heading">
+          <p class="section-kicker">数据报告</p>
+          <h2>认真分析每一分钟</h2>
+        </div>
+
+        <section class="insight-hero">
+          <p>累计带薪如厕收入</p>
+          <h2>¥<span id="total-earnings">0.00</span></h2>
+          <small>这是你坐着完成的“小目标”</small>
+          <div class="insight-row">
+            <div><strong id="total-sessions">0</strong><span>累计次数</span></div>
+            <div><strong id="total-hours">0.0h</strong><span>累计时长</span></div>
+            <div><strong id="average-minutes">0m</strong><span>平均一次</span></div>
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">近 7 天</p>
+              <h3>每日创收趋势</h3>
+            </div>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+        </section>
+
+        <section class="shape-card">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">形状观察</p>
+              <h3>最近状态分布</h3>
+            </div>
+          </div>
+          <div class="shape-stats" id="shape-stats"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-settings" data-view="settings">
+        <div class="page-heading">
+          <p class="section-kicker">个人设置</p>
+          <h2>先谈工资，再谈如厕</h2>
+        </div>
+
+        <section class="settings-hero">
+          <img src="assets/poop-clock-mascot.png" alt="" />
+          <div>
+            <p>当前折算时薪</p>
+            <h3>¥<span id="settings-hourly-rate">57.47</span></h3>
+            <small>仅在本设备保存，不会上传</small>
+          </div>
+        </section>
+
+        <form class="settings-form" id="settings-form">
+          <label>
+            <span>税前月薪</span>
+            <div class="input-wrap"><b>¥</b><input id="salary-input" type="number" min="0" step="100" inputmode="decimal" /></div>
+          </label>
+          <div class="form-row">
+            <label>
+              <span>每月工作天数</span>
+              <div class="input-wrap"><input id="workdays-input" type="number" min="1" max="31" step="0.25" inputmode="decimal" /><b>天</b></div>
+            </label>
+            <label>
+              <span>每天工作时长</span>
+              <div class="input-wrap"><input id="hours-input" type="number" min="1" max="24" step="0.5" inputmode="decimal" /><b>小时</b></div>
+            </label>
+          </div>
+          <button class="save-button" type="submit">保存工资设置</button>
+        </form>
+
+        <section class="privacy-note">
+          <span>✓</span>
+          <div>
+            <strong>你的厕所，你的数据</strong>
+            <p>所有工资与如厕记录都只保存在当前浏览器中。</p>
+          </div>
+        </section>
+
+        <button class="danger-button" id="clear-data">清空全部如厕记录</button>
+      </section>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="nav-item active" data-view-target="home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+          <span>打卡</span>
+        </button>
+        <button class="nav-item" data-view-target="records">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>
+          <span>记录</span>
+        </button>
+        <button class="nav-item" data-view-target="insights">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
+          <span>报告</span>
+        </button>
+        <button class="nav-item" data-view-target="settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.96 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3.08V3h4v.08A1.7 1.7 0 0 0 15.04 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9 1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15z"/></svg>
+          <span>设置</span>
+        </button>
+      </nav>
+    </main>
+
+    <div class="sheet-backdrop" id="finish-sheet" aria-hidden="true">
+      <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="finish-title">
+        <div class="sheet-handle"></div>
+        <button class="sheet-close" id="close-sheet" aria-label="关闭">×</button>
+        <p class="section-kicker">本次结算</p>
+        <h2 id="finish-title">这次是什么形状？</h2>
+        <div class="finish-summary">
+          <div><span>时长</span><strong id="finish-duration">0 分钟</strong></div>
+          <div><span>赚到</span><strong>¥<span id="finish-earnings">0.00</span></strong></div>
+        </div>
+        <div class="shape-options" id="shape-options">
+          <button data-shape="long">
+            <span class="shape-illustration long-shape"><i></i></span>
+            <strong>条状</strong>
+            <small>顺畅的一天</small>
+          </button>
+          <button data-shape="balls">
+            <span class="shape-illustration ball-shape"><i></i><i></i><i></i></span>
+            <strong>球状</strong>
+            <small>记得多喝水</small>
+          </button>
+          <button data-shape="loose">
+            <span class="shape-illustration loose-shape"><i></i></span>
+            <strong>稀状</strong>
+            <small>肚子有点忙</small>
+          </button>
+        </div>
+        <button class="save-button" id="save-session" disabled>选择形状并保存</button>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
