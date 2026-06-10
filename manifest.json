@@ -1,0 +1,17 @@
+{
+  "name": "薪厕 · 带薪如厕记录",
+  "short_name": "薪厕",
+  "description": "记录带薪如厕时间，看看今天坐着赚了多少钱。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fbf5e9",
+  "theme_color": "#5a3825",
+  "icons": [
+    {
+      "src": "assets/poop-clock-mascot.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
